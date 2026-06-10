@@ -254,6 +254,14 @@
     margin: 0 auto;
   }
   .philosophy blockquote span { color: var(--text-secondary); }
+  .philosophy .philosophy-copy {
+    position: relative;
+    max-width: 760px;
+    margin: 36px auto 0;
+    font-size: clamp(17px, 2vw, 21px);
+    line-height: 1.55;
+    color: var(--text-secondary);
+  }
 
   /* ============ Features ============ */
   .features { background: var(--bg-white); }
@@ -557,6 +565,7 @@
     Infrastructure that outlasts any model.<br>
     <span>Your knowledge, your workflows, your decisions.</span>
   </blockquote>
+  <p class="philosophy-copy reveal d1">FRANK is a private AI engine that runs on your Mac and serves your entire ecosystem &mdash; family office, investment entities, real estate, and operating companies. It ingests documents from any source (email, Dropbox, iMessage, WhatsApp), learns each entity's unique knowledge, routes requests to specialist agents (finance, legal, research), and requires your approval before any action or transaction. No cloud lock&#8209;in. No autonomous spending. Just a tireless, auditable chief of staff for your capital and affairs.</p>
 </section>
 
 <!-- ============ 3. Key Features ============ -->
@@ -610,7 +619,7 @@
     </div>
 
     <div class="arch-frame reveal d1">
-      <svg viewBox="0 0 1040 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="FRANK pipeline: Telegram to Bridge to ApprovalQueue to ExecutionGuard to Ollama to OutboundQueue to TelegramSender">
+      <svg viewBox="0 0 1040 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="FRANK pipeline: Any Channel to Bridge to ApprovalQueue to ExecutionGuard to Local LLM to OutboundQueue to MessageSender">
         <defs>
           <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M 0 1 L 9 5 L 0 9" fill="none" stroke="#6e6e73" stroke-width="1.5"/>
@@ -626,7 +635,7 @@
 
         <!-- Row 1 -->
         <rect class="node" x="20"  y="60" width="140" height="64" rx="14"/>
-        <text class="label" x="90" y="88">Telegram</text>
+        <text class="label" x="90" y="88">Any Channel</text>
         <text class="sublabel" x="90" y="106">inbound message</text>
 
         <rect class="node" x="220" y="60" width="140" height="64" rx="14"/>
@@ -642,7 +651,7 @@
         <text class="sublabel" x="720" y="106">policy check</text>
 
         <rect class="node" x="860" y="60" width="140" height="64" rx="14"/>
-        <text class="label" x="930" y="88">Ollama</text>
+        <text class="label" x="930" y="88">Local LLM</text>
         <text class="sublabel" x="930" y="106">local inference</text>
 
         <!-- Row 2 -->
@@ -651,7 +660,7 @@
         <text class="sublabel" x="720" y="246">staged replies</text>
 
         <rect class="node" x="420" y="200" width="160" height="64" rx="14"/>
-        <text class="label" x="500" y="228">TelegramSender</text>
+        <text class="label" x="500" y="228">MessageSender</text>
         <text class="sublabel" x="500" y="246">delivery</text>
 
         <!-- Flows row 1 -->
@@ -660,13 +669,13 @@
         <line class="flow" x1="580" y1="92" x2="636" y2="92"/>
         <line class="flow" x1="800" y1="92" x2="856" y2="92"/>
 
-        <!-- Ollama down to OutboundQueue -->
+        <!-- Local LLM down to OutboundQueue -->
         <path class="flow" d="M 930 124 L 930 232 L 804 232"/>
-        <!-- OutboundQueue to TelegramSender -->
+        <!-- OutboundQueue to MessageSender -->
         <line class="flow" x1="640" y1="232" x2="584" y2="232"/>
       </svg>
     </div>
-    <p class="arch-caption reveal d2">Telegram &rarr; Bridge &rarr; ApprovalQueue &rarr; ExecutionGuard &rarr; Ollama &rarr; OutboundQueue &rarr; TelegramSender</p>
+    <p class="arch-caption reveal d2">Any Channel &rarr; Bridge &rarr; ApprovalQueue &rarr; ExecutionGuard &rarr; Local LLM &rarr; OutboundQueue &rarr; MessageSender</p>
   </div>
 </section>
 
