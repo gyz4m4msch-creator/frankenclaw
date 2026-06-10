@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FRANK — Private AI operating layer</title>
+<meta name="description" content="FRANK. Always-on private AI orchestration for your family office, investments, and business. No cloud lock-in. No chatbot gimmicks.">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+  /* ============ Reset & tokens ============ */
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #f5f5f7;
+    --bg-white: #ffffff;
+    --text: #1d1d1f;
+    --text-secondary: #6e6e73;
+    --accent: #0071e3;
+    --accent-hover: #0077ed;
+    --border: #d2d2d7;
+    --radius-lg: 24px;
+    --radius-md: 18px;
+    --shadow-card: 0 4px 24px rgba(0,0,0,0.06);
+    --shadow-card-hover: 0 12px 40px rgba(0,0,0,0.10);
+    --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+
+  ::selection { background: rgba(0,113,227,0.18); }
+
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ============ Reveal animations ============ */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal.d1 { transition-delay: 0.1s; }
+  .reveal.d2 { transition-delay: 0.2s; }
+  .reveal.d3 { transition-delay: 0.3s; }
+  .reveal.d4 { transition-delay: 0.4s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
+
+  /* ============ Nav ============ */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    background: rgba(245,245,247,0.78);
+    border-bottom: 1px solid rgba(0,0,0,0.07);
+  }
+  .nav-inner {
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 0 22px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .nav-brand {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 0.01em;
+  }
+  .nav-brand:hover { text-decoration: none; }
+  .nav-links { display: flex; align-items: center; gap: 26px; }
+  .nav-links a {
+    font-size: 13px;
+    color: var(--text-secondary);
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); text-decoration: none; }
+  .nav-cta {
+    background: var(--accent);
+    color: #fff !important;
+    padding: 5px 14px;
+    border-radius: 980px;
+    font-size: 13px;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--accent-hover); text-decoration: none; }
+  @media (max-width: 640px) {
+    .nav-links a:not(.nav-cta) { display: none; }
+  }
+
+  /* ============ Buttons ============ */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font);
+    font-size: 17px;
+    line-height: 1.2;
+    padding: 13px 28px;
+    border-radius: 980px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.25s, color 0.25s, transform 0.25s;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent-hover); text-decoration: none; }
+  .btn-secondary {
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+  }
+  .btn-secondary:hover { background: var(--accent); color: #fff; text-decoration: none; }
+  .chevron { font-size: 0.8em; transition: transform 0.25s; }
+  a:hover .chevron, .btn:hover .chevron { transform: translateX(3px); }
+
+  .learn-more {
+    font-size: 17px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* ============ Layout helpers ============ */
+  .section { padding: 120px 22px; }
+  .container { max-width: 1024px; margin: 0 auto; }
+  .container-wide { max-width: 1200px; margin: 0 auto; }
+
+  .eyebrow {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .section-title {
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.08;
+  }
+  .section-sub {
+    font-size: clamp(17px, 2vw, 21px);
+    color: var(--text-secondary);
+    max-width: 640px;
+    margin-top: 18px;
+  }
+
+  /* ============ Hero ============ */
+  .hero {
+    background: var(--bg-white);
+    padding: 110px 22px 90px;
+    text-align: center;
+    overflow: hidden;
+  }
+  .hero h1 {
+    font-size: clamp(44px, 7vw, 88px);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+  }
+  .hero h1 .hero-product { display: block; }
+  .hero h1 .hero-tagline {
+    display: block;
+    background: linear-gradient(90deg, #1d1d1f 0%, #555 50%, #1d1d1f 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+  .hero-sub {
+    font-size: clamp(18px, 2.4vw, 24px);
+    color: var(--text-secondary);
+    max-width: 680px;
+    margin: 26px auto 0;
+    line-height: 1.45;
+  }
+  .hero-actions {
+    margin-top: 38px;
+    display: flex;
+    gap: 18px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .hero-availability {
+    margin-top: 22px;
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+  .hero-visual {
+    margin: 70px auto 0;
+    max-width: 720px;
+    width: 100%;
+  }
+  .hero-visual svg { width: 100%; height: auto; display: block; }
+
+  @keyframes corePulse {
+    0%, 100% { opacity: 0.55; }
+    50% { opacity: 1; }
+  }
+  @keyframes ringSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes ringSpinReverse {
+    from { transform: rotate(360deg); }
+    to { transform: rotate(0deg); }
+  }
+  .core-ring { transform-origin: 360px 260px; animation: ringSpin 40s linear infinite; }
+  .core-ring-2 { transform-origin: 360px 260px; animation: ringSpinReverse 60s linear infinite; }
+  .core-pulse { animation: corePulse 4s ease-in-out infinite; }
+  @media (prefers-reduced-motion: reduce) {
+    .core-ring, .core-ring-2, .core-pulse { animation: none; }
+  }
+
+  /* ============ Philosophy ============ */
+  .philosophy {
+    position: relative;
+    text-align: center;
+    padding: 150px 22px;
+    background: var(--bg);
+    overflow: hidden;
+  }
+  .philosophy::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 55% at 50% 50%, rgba(0,113,227,0.10), transparent 70%);
+    pointer-events: none;
+  }
+  .philosophy blockquote {
+    position: relative;
+    font-size: clamp(28px, 4.4vw, 48px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.18;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+  .philosophy blockquote span { color: var(--text-secondary); }
+
+  /* ============ Features ============ */
+  .features { background: var(--bg-white); }
+  .features-grid {
+    margin-top: 64px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+    align-items: stretch;
+  }
+  @media (max-width: 1000px) { .features-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .features-grid { grid-template-columns: 1fr; } }
+
+  .feature-card {
+    background: var(--bg);
+    border-radius: var(--radius-lg);
+    padding: 38px 30px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s;
+  }
+  .feature-card:hover {
+    transform: scale(1.025) translateY(-4px);
+    box-shadow: var(--shadow-card-hover);
+  }
+  .feature-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #1d1d1f, #48484d);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin-bottom: 24px;
+  }
+  .feature-card h3 {
+    font-size: 21px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 10px;
+  }
+  .feature-card p {
+    font-size: 15px;
+    color: var(--text-secondary);
+    flex-grow: 1;
+  }
+  .feature-card .learn-more { font-size: 15px; margin-top: 20px; }
+
+  /* ============ Architecture ============ */
+  .architecture { background: var(--bg); }
+  .arch-frame {
+    margin-top: 56px;
+    background: #0b0b0e;
+    border-radius: var(--radius-lg);
+    padding: clamp(24px, 5vw, 56px);
+    box-shadow: var(--shadow-card);
+    overflow-x: auto;
+  }
+  .arch-frame svg {
+    width: 100%;
+    min-width: 640px;
+    height: auto;
+    display: block;
+  }
+  .arch-caption {
+    margin-top: 22px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    text-align: center;
+  }
+
+  /* ============ Specs ============ */
+  .specs { background: var(--bg-white); }
+  .specs-grid {
+    margin-top: 64px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+  @media (max-width: 900px) { .specs-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .specs-grid { grid-template-columns: 1fr; } }
+
+  .spec-card {
+    background: var(--bg);
+    border-radius: var(--radius-md);
+    padding: 32px 28px;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s;
+  }
+  .spec-card:hover { transform: scale(1.02); box-shadow: var(--shadow-card); }
+  .spec-card .spec-label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+  }
+  .spec-card .spec-value {
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+  .spec-card .spec-detail {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-top: 8px;
+  }
+
+  /* ============ Testimonial ============ */
+  .testimonial {
+    background: var(--bg);
+    text-align: center;
+  }
+  .testimonial-card {
+    max-width: 820px;
+    margin: 0 auto;
+    background: var(--bg-white);
+    border-radius: var(--radius-lg);
+    padding: clamp(40px, 6vw, 72px);
+    box-shadow: var(--shadow-card);
+  }
+  .testimonial-quote-mark {
+    font-size: 44px;
+    color: var(--accent);
+    margin-bottom: 18px;
+  }
+  .testimonial blockquote {
+    font-size: clamp(21px, 2.8vw, 28px);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.35;
+  }
+  .testimonial cite {
+    display: block;
+    margin-top: 26px;
+    font-style: normal;
+    font-size: 15px;
+    color: var(--text-secondary);
+  }
+
+  /* ============ CTA ============ */
+  .cta {
+    background: #000;
+    color: #f5f5f7;
+    text-align: center;
+  }
+  .cta .section-title { color: #f5f5f7; }
+  .cta .section-sub { color: #a1a1a6; margin-left: auto; margin-right: auto; }
+  .cta-form {
+    max-width: 460px;
+    margin: 44px auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .cta-form input {
+    font-family: var(--font);
+    font-size: 17px;
+    padding: 15px 20px;
+    border-radius: 14px;
+    border: 1px solid #3a3a3c;
+    background: #1c1c1e;
+    color: #f5f5f7;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .cta-form input::placeholder { color: #8e8e93; }
+  .cta-form input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(0,113,227,0.25);
+  }
+  .cta-form .btn { justify-content: center; }
+  .cta-note { margin-top: 18px; font-size: 13px; color: #8e8e93; }
+  .cta-success {
+    display: none;
+    margin: 44px auto 0;
+    max-width: 460px;
+    padding: 24px;
+    border-radius: var(--radius-md);
+    background: #1c1c1e;
+    border: 1px solid #30d158;
+    color: #30d158;
+    font-size: 17px;
+  }
+
+  /* ============ Footer ============ */
+  .footer {
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    padding: 40px 22px 60px;
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+  .footer-inner { max-width: 1024px; margin: 0 auto; }
+  .footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 24px;
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+  }
+  .footer-links a { color: var(--text-secondary); }
+  .footer-links a:hover { color: var(--text); }
+</style>
+</head>
+<body>
+
+<!-- ============ Nav ============ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a class="nav-brand" href="#top">FRANK</a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#specs">Specs</a>
+      <a class="nav-cta" href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ 1. Hero ============ -->
+<header class="hero" id="top">
+  <div class="container">
+    <h1 class="reveal">
+      <span class="hero-product">FRANK.</span>
+      <span class="hero-tagline">Private AI operating layer.</span>
+    </h1>
+    <p class="hero-sub reveal d1">Always&#8209;on orchestration for your family office, investments, and business. No cloud lock&#8209;in. No chatbot gimmicks.</p>
+    <div class="hero-actions reveal d2">
+      <a class="btn btn-primary" href="#features">Explore</a>
+      <a class="btn btn-secondary" href="#specs">Learn more <i class="fa-solid fa-chevron-right chevron"></i></a>
+    </div>
+    <p class="hero-availability reveal d3">Availability: soon. Runs on Mac. Contact for early access.</p>
+
+    <!-- Abstract AI core visual (SVG placeholder) -->
+    <div class="hero-visual reveal d3" aria-hidden="true">
+      <svg viewBox="0 0 720 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Abstract representation of the FRANK node">
+        <defs>
+          <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#0071e3" stop-opacity="0.55"/>
+            <stop offset="55%" stop-color="#0071e3" stop-opacity="0.12"/>
+            <stop offset="100%" stop-color="#0071e3" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="coreFace" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#2c2c2e"/>
+            <stop offset="100%" stop-color="#0b0b0e"/>
+          </linearGradient>
+          <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#0071e3" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#0071e3" stop-opacity="0.05"/>
+          </linearGradient>
+        </defs>
+
+        <!-- ambient glow -->
+        <ellipse cx="360" cy="260" rx="320" ry="230" fill="url(#coreGlow)" class="core-pulse"/>
+
+        <!-- orbital rings -->
+        <g class="core-ring">
+          <ellipse cx="360" cy="260" rx="270" ry="120" fill="none" stroke="url(#ringGrad)" stroke-width="1.5"/>
+          <circle cx="630" cy="260" r="5" fill="#0071e3"/>
+        </g>
+        <g class="core-ring-2">
+          <ellipse cx="360" cy="260" rx="210" ry="170" fill="none" stroke="url(#ringGrad)" stroke-width="1"/>
+          <circle cx="360" cy="90" r="4" fill="#0071e3" opacity="0.7"/>
+        </g>
+
+        <!-- core block (abstract Mac mini node) -->
+        <g>
+          <rect x="250" y="170" width="220" height="180" rx="36" fill="url(#coreFace)"/>
+          <rect x="250" y="170" width="220" height="180" rx="36" fill="none" stroke="#48484d" stroke-width="1"/>
+          <!-- inner geometry -->
+          <circle cx="360" cy="260" r="46" fill="none" stroke="#0071e3" stroke-width="1.5" opacity="0.9"/>
+          <circle cx="360" cy="260" r="28" fill="none" stroke="#0071e3" stroke-width="1" opacity="0.5"/>
+          <circle cx="360" cy="260" r="8" fill="#0071e3" class="core-pulse"/>
+          <!-- connection nodes -->
+          <line x1="360" y1="214" x2="360" y2="188" stroke="#48484d" stroke-width="1.5"/>
+          <circle cx="360" cy="186" r="3" fill="#8e8e93"/>
+          <line x1="360" y1="306" x2="360" y2="332" stroke="#48484d" stroke-width="1.5"/>
+          <circle cx="360" cy="334" r="3" fill="#8e8e93"/>
+          <line x1="314" y1="260" x2="288" y2="260" stroke="#48484d" stroke-width="1.5"/>
+          <circle cx="286" cy="260" r="3" fill="#8e8e93"/>
+          <line x1="406" y1="260" x2="432" y2="260" stroke="#48484d" stroke-width="1.5"/>
+          <circle cx="434" cy="260" r="3" fill="#8e8e93"/>
+        </g>
+
+        <!-- base shadow -->
+        <ellipse cx="360" cy="392" rx="150" ry="16" fill="#000" opacity="0.08"/>
+      </svg>
+    </div>
+  </div>
+</header>
+
+<!-- ============ 2. Philosophy ============ -->
+<section class="philosophy">
+  <blockquote class="reveal">
+    Infrastructure that outlasts any model.<br>
+    <span>Your knowledge, your workflows, your decisions.</span>
+  </blockquote>
+</section>
+
+<!-- ============ 3. Key Features ============ -->
+<section class="section features" id="features">
+  <div class="container-wide">
+    <div class="reveal">
+      <p class="eyebrow">Key features</p>
+      <h2 class="section-title">Built like infrastructure.<br>Not like an app.</h2>
+      <p class="section-sub">Every component designed for continuity, control, and privacy — running on hardware you own.</p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card reveal d1">
+        <div class="feature-icon"><i class="fa-solid fa-server"></i></div>
+        <h3>Always&#8209;on Mac node</h3>
+        <p>Runs 24/7, headless, with automatic recovery. Your operating layer is there when you wake up — and still there when you don't check in for a week.</p>
+        <a class="learn-more" href="#specs">Learn more <i class="fa-solid fa-chevron-right chevron"></i></a>
+      </div>
+
+      <div class="feature-card reveal d2">
+        <div class="feature-icon"><i class="fa-solid fa-layer-group"></i></div>
+        <h3>Hybrid AI</h3>
+        <p>Local LLM models for private, routine work. Premium Claude or OpenAI models when the stakes demand it. You decide what leaves the machine.</p>
+        <a class="learn-more" href="#architecture">Learn more <i class="fa-solid fa-chevron-right chevron"></i></a>
+      </div>
+
+      <div class="feature-card reveal d3">
+        <div class="feature-icon"><i class="fa-solid fa-user-check"></i></div>
+        <h3>Human&#8209;in&#8209;the&#8209;loop</h3>
+        <p>Approval gates for every external action. Nothing is sent, signed, or spent without your explicit confirmation. Autonomy with a leash.</p>
+        <a class="learn-more" href="#architecture">Learn more <i class="fa-solid fa-chevron-right chevron"></i></a>
+      </div>
+
+      <div class="feature-card reveal d4">
+        <div class="feature-icon"><i class="fa-solid fa-arrows-turn-to-dots"></i></div>
+        <h3>Portable architecture</h3>
+        <p>Clone the entire system to new hardware in an afternoon. Filesystem&#8209;first design means no vendor lock&#8209;in — ever.</p>
+        <a class="learn-more" href="#specs">Learn more <i class="fa-solid fa-chevron-right chevron"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. Architecture ============ -->
+<section class="section architecture" id="architecture">
+  <div class="container">
+    <div class="reveal">
+      <p class="eyebrow">Architecture</p>
+      <h2 class="section-title">Every action flows through a guarded pipeline.</h2>
+      <p class="section-sub">From the moment a message arrives to the moment a response leaves, each step is queued, guarded, and auditable.</p>
+    </div>
+
+    <div class="arch-frame reveal d1">
+      <svg viewBox="0 0 1040 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="FRANK pipeline: Telegram to Bridge to ApprovalQueue to ExecutionGuard to Ollama to OutboundQueue to TelegramSender">
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 1 L 9 5 L 0 9" fill="none" stroke="#6e6e73" stroke-width="1.5"/>
+          </marker>
+        </defs>
+        <style>
+          .node { fill: #1c1c1e; stroke: #3a3a3c; stroke-width: 1; rx: 14; }
+          .node-accent { fill: #0a2540; stroke: #0071e3; }
+          .label { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 15px; font-weight: 600; fill: #f5f5f7; text-anchor: middle; }
+          .sublabel { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 11px; fill: #8e8e93; text-anchor: middle; }
+          .flow { stroke: #6e6e73; stroke-width: 1.5; fill: none; marker-end: url(#arrow); }
+        </style>
+
+        <!-- Row 1 -->
+        <rect class="node" x="20"  y="60" width="140" height="64" rx="14"/>
+        <text class="label" x="90" y="88">Telegram</text>
+        <text class="sublabel" x="90" y="106">inbound message</text>
+
+        <rect class="node" x="220" y="60" width="140" height="64" rx="14"/>
+        <text class="label" x="290" y="88">Bridge</text>
+        <text class="sublabel" x="290" y="106">ingest &amp; route</text>
+
+        <rect class="node node-accent" x="420" y="60" width="160" height="64" rx="14"/>
+        <text class="label" x="500" y="88">ApprovalQueue</text>
+        <text class="sublabel" x="500" y="106">human gate</text>
+
+        <rect class="node node-accent" x="640" y="60" width="160" height="64" rx="14"/>
+        <text class="label" x="720" y="88">ExecutionGuard</text>
+        <text class="sublabel" x="720" y="106">policy check</text>
+
+        <rect class="node" x="860" y="60" width="140" height="64" rx="14"/>
+        <text class="label" x="930" y="88">Ollama</text>
+        <text class="sublabel" x="930" y="106">local inference</text>
+
+        <!-- Row 2 -->
+        <rect class="node" x="640" y="200" width="160" height="64" rx="14"/>
+        <text class="label" x="720" y="228">OutboundQueue</text>
+        <text class="sublabel" x="720" y="246">staged replies</text>
+
+        <rect class="node" x="420" y="200" width="160" height="64" rx="14"/>
+        <text class="label" x="500" y="228">TelegramSender</text>
+        <text class="sublabel" x="500" y="246">delivery</text>
+
+        <!-- Flows row 1 -->
+        <line class="flow" x1="160" y1="92" x2="216" y2="92"/>
+        <line class="flow" x1="360" y1="92" x2="416" y2="92"/>
+        <line class="flow" x1="580" y1="92" x2="636" y2="92"/>
+        <line class="flow" x1="800" y1="92" x2="856" y2="92"/>
+
+        <!-- Ollama down to OutboundQueue -->
+        <path class="flow" d="M 930 124 L 930 232 L 804 232"/>
+        <!-- OutboundQueue to TelegramSender -->
+        <line class="flow" x1="640" y1="232" x2="584" y2="232"/>
+      </svg>
+    </div>
+    <p class="arch-caption reveal d2">Telegram &rarr; Bridge &rarr; ApprovalQueue &rarr; ExecutionGuard &rarr; Ollama &rarr; OutboundQueue &rarr; TelegramSender</p>
+  </div>
+</section>
+
+<!-- ============ 5. Technical specifications ============ -->
+<section class="section specs" id="specs">
+  <div class="container-wide">
+    <div class="reveal">
+      <p class="eyebrow">Technical specifications</p>
+      <h2 class="section-title">Transparent by design.</h2>
+      <p class="section-sub">No hidden databases. No opaque services. Every layer is inspectable, portable, and yours.</p>
+    </div>
+
+    <div class="specs-grid">
+      <div class="spec-card reveal d1">
+        <p class="spec-label">Hardware</p>
+        <p class="spec-value">Headless Mac&nbsp;mini or Mac&nbsp;Studio</p>
+        <p class="spec-detail">Silent, efficient, always&#8209;on. Auto&#8209;recovery on power loss.</p>
+      </div>
+      <div class="spec-card reveal d1">
+        <p class="spec-label">Storage</p>
+        <p class="spec-value">Filesystem&#8209;first</p>
+        <p class="spec-detail">JSONL, not hidden databases. Grep it, back it up, version it.</p>
+      </div>
+      <div class="spec-card reveal d2">
+        <p class="spec-label">Agent hierarchy</p>
+        <p class="spec-value">Orchestrator &rarr; Domain Agents &rarr; Skills</p>
+        <p class="spec-detail">Clear delegation. Each layer scoped to exactly what it needs.</p>
+      </div>
+      <div class="spec-card reveal d2">
+        <p class="spec-label">Accountability</p>
+        <p class="spec-value">Audit trail, memory, feedback learning</p>
+        <p class="spec-detail">Every action logged. Every correction remembered.</p>
+      </div>
+      <div class="spec-card reveal d3">
+        <p class="spec-label">Currently used by</p>
+        <p class="spec-value">Family Office &middot; Investments</p>
+        <p class="spec-detail">Production domains, running today.</p>
+      </div>
+      <div class="spec-card reveal d3">
+        <p class="spec-label">Availability</p>
+        <p class="spec-value">Soon</p>
+        <p class="spec-detail">Runs on Mac. Contact for early access.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6. Testimonial ============ -->
+<section class="section testimonial">
+  <div class="testimonial-card reveal">
+    <div class="testimonial-quote-mark"><i class="fa-solid fa-quote-left"></i></div>
+    <blockquote>After testing local&#8209;only models, FRANK's hybrid approach caught critical legal nuance. This is infrastructure I trust.</blockquote>
+    <cite>— Early deployment, family office principal</cite>
+  </div>
+</section>
+
+<!-- ============ 7. Call to action ============ -->
+<section class="section cta" id="contact">
+  <div class="container">
+    <div class="reveal">
+      <h2 class="section-title">Learn more about upcoming availability.</h2>
+      <p class="section-sub">Availability: soon. Runs on Mac. Register for early access.</p>
+    </div>
+
+    <form class="cta-form reveal d1" id="contactForm" action="https://example.com/api/contact" method="POST" novalidate>
+      <input type="text" name="name" id="fieldName" placeholder="Name" autocomplete="name" required>
+      <input type="email" name="email" id="fieldEmail" placeholder="Email" autocomplete="email" required>
+      <button class="btn btn-primary" type="submit">Request early access <i class="fa-solid fa-chevron-right chevron"></i></button>
+    </form>
+    <div class="cta-success" id="formSuccess" role="status">
+      <i class="fa-solid fa-circle-check"></i>&nbsp; Thank you. We'll be in touch shortly.
+    </div>
+    <p class="cta-note reveal d2">Early access is coming soon. Your details stay private. No mailing lists, no third parties.</p>
+  </div>
+</section>
+
+<!-- ============ 8. Footer ============ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-links">
+      <a href="#" onclick="return false;">Documentation</a>
+      <a href="#" onclick="return false;">Architecture guide</a>
+      <a href="#" onclick="return false;">Deployment manual</a>
+      <a href="#" onclick="return false;">Privacy</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <p>Copyright &copy; 2026 FRANK. All rights reserved.</p>
+    <p>FRANK is a private AI operating layer. Not a chatbot.</p>
+  </div>
+</footer>
+
+<script>
+  // Scroll-triggered reveal animations
+  (function () {
+    var els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function (el) { el.classList.add('visible'); });
+      return;
+    }
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function (el) { observer.observe(el); });
+  })();
+
+  // Contact form — dummy endpoint
+  (function () {
+    var form = document.getElementById('contactForm');
+    var success = document.getElementById('formSuccess');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var name = document.getElementById('fieldName');
+      var email = document.getElementById('fieldEmail');
+      if (!name.value.trim() || !email.value.trim() || email.value.indexOf('@') === -1) {
+        (!name.value.trim() ? name : email).focus();
+        return;
+      }
+      // Dummy endpoint — replace with real handler later.
+      // fetch('https://example.com/api/contact', { method: 'POST', body: new FormData(form) });
+      form.style.display = 'none';
+      success.style.display = 'block';
+    });
+  })();
+</script>
+
+</body>
+</html>
