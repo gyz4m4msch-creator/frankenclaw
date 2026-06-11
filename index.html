@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FRANK — Private AI operating layer</title>
-<meta name="description" content="FRANK. Always-on private AI orchestration for your family office, investments, and business. No cloud lock-in. No chatbot gimmicks.">
+<meta name="description" content="FRANK. Always-on private AI orchestration for your family office, investments, and business. Built for the complexity of modern capital.">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <style>
   /* ============ Reset & tokens ============ */
@@ -15,8 +15,8 @@
     --bg-white: #ffffff;
     --text: #1d1d1f;
     --text-secondary: #6e6e73;
-    --accent: #0071e3;
-    --accent-hover: #0077ed;
+    --accent: #137a8a;
+    --accent-hover: #16899b;
     --border: #d2d2d7;
     --radius-lg: 24px;
     --radius-md: 18px;
@@ -37,7 +37,7 @@
     overflow-x: hidden;
   }
 
-  ::selection { background: rgba(0,113,227,0.18); }
+  ::selection { background: rgba(19,122,138,0.18); }
 
   a { color: var(--accent); text-decoration: none; }
   a:hover { text-decoration: underline; }
@@ -241,7 +241,7 @@
     content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse 60% 55% at 50% 50%, rgba(0,113,227,0.10), transparent 70%);
+    background: radial-gradient(ellipse 60% 55% at 50% 50%, rgba(19,122,138,0.10), transparent 70%);
     pointer-events: none;
   }
   .philosophy blockquote {
@@ -312,6 +312,17 @@
     flex-grow: 1;
   }
   .feature-card .learn-more { font-size: 15px; margin-top: 20px; }
+
+  /* ============ Entities ============ */
+  .entities { background: var(--bg-white); padding-top: 0; }
+  .entities-grid {
+    margin-top: 64px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    align-items: stretch;
+  }
+  @media (max-width: 900px) { .entities-grid { grid-template-columns: 1fr; } }
 
   /* ============ Architecture ============ */
   .architecture { background: var(--bg); }
@@ -435,7 +446,7 @@
   .cta-form input::placeholder { color: #8e8e93; }
   .cta-form input:focus {
     border-color: var(--accent);
-    box-shadow: 0 0 0 4px rgba(0,113,227,0.25);
+    box-shadow: 0 0 0 4px rgba(19,122,138,0.30);
   }
   .cta-form .btn { justify-content: center; }
   .cta-note { margin-top: 18px; font-size: 13px; color: #8e8e93; }
@@ -494,29 +505,29 @@
       <span class="hero-product">FRANK.</span>
       <span class="hero-tagline">Private AI operating layer.</span>
     </h1>
-    <p class="hero-sub reveal d1">Always&#8209;on orchestration for your family office, investments, and business. No cloud lock&#8209;in. No chatbot gimmicks.</p>
+    <p class="hero-sub reveal d1">Always&#8209;on orchestration for your family office, investments, and business. Built for the complexity of modern capital.</p>
     <div class="hero-actions reveal d2">
       <a class="btn btn-primary" href="#features">Explore</a>
       <a class="btn btn-secondary" href="#specs">Learn more <i class="fa-solid fa-chevron-right chevron"></i></a>
     </div>
-    <p class="hero-availability reveal d3">Availability: soon. Runs on Mac. Contact for early access.</p>
+    <p class="hero-availability reveal d3">Coming soon. Runs on a Mac you own.</p>
 
     <!-- Abstract AI core visual (SVG placeholder) -->
     <div class="hero-visual reveal d3" aria-hidden="true">
       <svg viewBox="0 -40 720 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Abstract representation of the FRANK node">
         <defs>
           <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#0071e3" stop-opacity="0.55"/>
-            <stop offset="55%" stop-color="#0071e3" stop-opacity="0.12"/>
-            <stop offset="100%" stop-color="#0071e3" stop-opacity="0"/>
+            <stop offset="0%" stop-color="#137a8a" stop-opacity="0.55"/>
+            <stop offset="55%" stop-color="#137a8a" stop-opacity="0.12"/>
+            <stop offset="100%" stop-color="#137a8a" stop-opacity="0"/>
           </radialGradient>
           <linearGradient id="coreFace" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0%" stop-color="#2c2c2e"/>
             <stop offset="100%" stop-color="#0b0b0e"/>
           </linearGradient>
           <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#0071e3" stop-opacity="0.9"/>
-            <stop offset="100%" stop-color="#0071e3" stop-opacity="0.05"/>
+            <stop offset="0%" stop-color="#137a8a" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#137a8a" stop-opacity="0.05"/>
           </linearGradient>
         </defs>
 
@@ -526,11 +537,11 @@
         <!-- orbital rings -->
         <g class="core-ring">
           <ellipse cx="360" cy="260" rx="270" ry="120" fill="none" stroke="url(#ringGrad)" stroke-width="1.5"/>
-          <circle cx="630" cy="260" r="5" fill="#0071e3"/>
+          <circle cx="630" cy="260" r="5" fill="#137a8a"/>
         </g>
         <g class="core-ring-2">
           <ellipse cx="360" cy="260" rx="210" ry="170" fill="none" stroke="url(#ringGrad)" stroke-width="1"/>
-          <circle cx="360" cy="90" r="4" fill="#0071e3" opacity="0.7"/>
+          <circle cx="360" cy="90" r="4" fill="#137a8a" opacity="0.7"/>
         </g>
 
         <!-- core block (abstract Mac mini node) -->
@@ -538,9 +549,9 @@
           <rect x="250" y="170" width="220" height="180" rx="36" fill="url(#coreFace)"/>
           <rect x="250" y="170" width="220" height="180" rx="36" fill="none" stroke="#48484d" stroke-width="1"/>
           <!-- inner geometry -->
-          <circle cx="360" cy="260" r="46" fill="none" stroke="#0071e3" stroke-width="1.5" opacity="0.9"/>
-          <circle cx="360" cy="260" r="28" fill="none" stroke="#0071e3" stroke-width="1" opacity="0.5"/>
-          <circle cx="360" cy="260" r="8" fill="#0071e3" class="core-pulse"/>
+          <circle cx="360" cy="260" r="46" fill="none" stroke="#137a8a" stroke-width="1.5" opacity="0.9"/>
+          <circle cx="360" cy="260" r="28" fill="none" stroke="#137a8a" stroke-width="1" opacity="0.5"/>
+          <circle cx="360" cy="260" r="8" fill="#137a8a" class="core-pulse"/>
           <!-- connection nodes -->
           <line x1="360" y1="214" x2="360" y2="188" stroke="#48484d" stroke-width="1.5"/>
           <circle cx="360" cy="186" r="3" fill="#8e8e93"/>
@@ -562,10 +573,10 @@
 <!-- ============ 2. Philosophy ============ -->
 <section class="philosophy">
   <blockquote class="reveal">
-    Infrastructure that outlasts any model.<br>
-    <span>Your knowledge, your workflows, your decisions.</span>
+    Looks like a Mac mini. Works like a chief of staff.<br>
+    <span>Your knowledge. Your workflows. Your decisions.</span>
   </blockquote>
-  <p class="philosophy-copy reveal d1">FRANK is a private AI engine that runs on your Mac and serves your entire ecosystem &mdash; family office, investment entities, real estate, and operating companies. It ingests documents from any source (email, Dropbox, iMessage, WhatsApp), learns each entity's unique knowledge, routes requests to specialist agents (finance, legal, research), and requires your approval before any action or transaction. No cloud lock&#8209;in. No autonomous spending. Just a tireless, auditable chief of staff for your capital and affairs.</p>
+  <p class="philosophy-copy reveal d1">FRANK is a private AI engine that serves everything you steward &mdash; family office, investment entities, real estate, operating companies. It reads what you read. Learns what each entity needs. Routes every request to the right specialist: finance, legal, research. And before anything is sent, signed, or spent, it asks you first. No cloud lock&#8209;in. No autonomous spending. Just relentless, auditable help.</p>
 </section>
 
 <!-- ============ 3. Key Features ============ -->
@@ -580,30 +591,61 @@
     <div class="features-grid">
       <div class="feature-card reveal d1">
         <div class="feature-icon"><i class="fa-solid fa-server"></i></div>
-        <h3>Always&#8209;on Mac node</h3>
-        <p>Runs 24/7, headless, with automatic recovery. Your operating layer is there when you wake up — and still there when you don't check in for a week.</p>
+        <h3>Always on. Always yours.</h3>
+        <p>Runs 24/7 on your own hardware. Headless, self&#8209;healing, and on duty before you are.</p>
         <a class="learn-more" href="#specs">Learn more <i class="fa-solid fa-chevron-right chevron"></i></a>
       </div>
 
       <div class="feature-card reveal d2">
         <div class="feature-icon"><i class="fa-solid fa-layer-group"></i></div>
-        <h3>Hybrid AI</h3>
-        <p>Local LLM models for private, routine work. Premium Claude or OpenAI models when the stakes demand it. You decide what leaves the machine.</p>
+        <h3>Private by default. Brilliant on demand.</h3>
+        <p>Local models handle the everyday. Frontier models step in when stakes are high. You decide what leaves the machine.</p>
         <a class="learn-more" href="#architecture">Learn more <i class="fa-solid fa-chevron-right chevron"></i></a>
       </div>
 
       <div class="feature-card reveal d3">
         <div class="feature-icon"><i class="fa-solid fa-user-check"></i></div>
-        <h3>Human&#8209;in&#8209;the&#8209;loop</h3>
-        <p>Approval gates for every external action. Nothing is sent, signed, or spent without your explicit confirmation. Autonomy with a leash.</p>
+        <h3>You have the last word. Every time.</h3>
+        <p>Every external action waits at an approval gate. Nothing moves without you.</p>
         <a class="learn-more" href="#architecture">Learn more <i class="fa-solid fa-chevron-right chevron"></i></a>
       </div>
 
       <div class="feature-card reveal d4">
         <div class="feature-icon"><i class="fa-solid fa-arrows-turn-to-dots"></i></div>
-        <h3>Portable architecture</h3>
-        <p>Clone the entire system to new hardware in an afternoon. Filesystem&#8209;first design means no vendor lock&#8209;in — ever.</p>
+        <h3>Pack up. Plug in. Carry on.</h3>
+        <p>Clone the entire system to new hardware in an afternoon. Files you can read. Lock&#8209;in you'll never feel.</p>
         <a class="learn-more" href="#specs">Learn more <i class="fa-solid fa-chevron-right chevron"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3b. Entities ============ -->
+<section class="section entities" id="entities">
+  <div class="container-wide">
+    <div class="reveal">
+      <p class="eyebrow">Built for complexity</p>
+      <h2 class="section-title">Every entity.<br>A first&#8209;class citizen.</h2>
+      <p class="section-sub">A family office. Several investment entities. Real estate holdings. Operating businesses. Each with its own documents, counterparties, and decision rights. FRANK keeps them distinct &mdash; and keeps you in command.</p>
+    </div>
+
+    <div class="entities-grid">
+      <div class="feature-card reveal d1">
+        <div class="feature-icon"><i class="fa-solid fa-file-contract"></i></div>
+        <h3>Drop in a term sheet.</h3>
+        <p>FRANK classifies it, extracts the key terms, routes it to the finance agent, and drafts a summary. You approve or reject &mdash; and your decision, rationale included, is stored in that entity's memory.</p>
+      </div>
+
+      <div class="feature-card reveal d2">
+        <div class="feature-icon"><i class="fa-solid fa-comments"></i></div>
+        <h3>Ask from anywhere.</h3>
+        <p>"What's our exposure to European real estate?" FRANK retrieves from every relevant entity, synthesises a response, and waits for your approval before sending. No data crosses entity lines unless you explicitly permit it.</p>
+      </div>
+
+      <div class="feature-card reveal d3">
+        <div class="feature-icon"><i class="fa-solid fa-landmark"></i></div>
+        <h3>It learns the way you decide.</h3>
+        <p>Your investment criteria. Your recurring due&#8209;diligence questions. Your preferred legal language. FRANK becomes shared institutional memory &mdash; a governance layer that outlasts any single manager or model.</p>
       </div>
     </div>
   </div>
@@ -614,68 +656,86 @@
   <div class="container">
     <div class="reveal">
       <p class="eyebrow">Architecture</p>
-      <h2 class="section-title">Every action flows through a guarded pipeline.</h2>
-      <p class="section-sub">From the moment a message arrives to the moment a response leaves, each step is queued, guarded, and auditable.</p>
+      <h2 class="section-title">Every action. One guarded pipeline.</h2>
+      <p class="section-sub">From inbound message to outbound reply — queued, checked, and on the record.</p>
     </div>
 
     <div class="arch-frame reveal d1">
-      <svg viewBox="0 0 1040 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="FRANK pipeline: Any Channel to Bridge to ApprovalQueue to ExecutionGuard to Local LLM to OutboundQueue to MessageSender">
+      <svg viewBox="0 0 1040 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="FRANK architecture: you approve everything above the FRANK orchestrator. Channels connect on the left, local and frontier AI models on the right, specialist agents for finance, legal and research below, all resting on a foundation of memory, audit trail and entity isolation.">
         <defs>
           <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M 0 1 L 9 5 L 0 9" fill="none" stroke="#6e6e73" stroke-width="1.5"/>
           </marker>
         </defs>
         <style>
-          .node { fill: #1c1c1e; stroke: #3a3a3c; stroke-width: 1; rx: 14; }
-          .node-accent { fill: #0a2540; stroke: #0071e3; }
+          .node { fill: #1c1c1e; stroke: #3a3a3c; stroke-width: 1; }
+          .node-accent { fill: #0a2a2f; stroke: #137a8a; }
+          .node-base { fill: #121214; stroke: #2c2c2e; }
           .label { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 15px; font-weight: 600; fill: #f5f5f7; text-anchor: middle; }
+          .label-lg { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 24px; font-weight: 700; fill: #f5f5f7; text-anchor: middle; letter-spacing: 0.04em; }
           .sublabel { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 11px; fill: #8e8e93; text-anchor: middle; }
+          .flowlabel { font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 11px; fill: #137a8a; }
           .flow { stroke: #6e6e73; stroke-width: 1.5; fill: none; marker-end: url(#arrow); }
+          .flow2 { stroke: #6e6e73; stroke-width: 1.5; fill: none; marker-start: url(#arrow); marker-end: url(#arrow); }
         </style>
 
-        <!-- Row 1 -->
-        <rect class="node" x="20"  y="60" width="140" height="64" rx="14"/>
-        <text class="label" x="90" y="88">Any Channel</text>
-        <text class="sublabel" x="90" y="106">inbound message</text>
+        <!-- You: the approval gate -->
+        <rect class="node node-accent" x="400" y="24" width="240" height="72" rx="16"/>
+        <text class="label" x="520" y="56">You</text>
+        <text class="sublabel" x="520" y="76">nothing moves without your sign&#8209;off</text>
 
-        <rect class="node" x="220" y="60" width="140" height="64" rx="14"/>
-        <text class="label" x="290" y="88">Bridge</text>
-        <text class="sublabel" x="290" y="106">ingest &amp; route</text>
+        <!-- proposes / approves loop -->
+        <line class="flow" x1="495" y1="206" x2="495" y2="102"/>
+        <line class="flow" x1="545" y1="102" x2="545" y2="206"/>
+        <text class="flowlabel" x="483" y="158" text-anchor="end">proposes</text>
+        <text class="flowlabel" x="557" y="158" text-anchor="start">approves</text>
 
-        <rect class="node node-accent" x="420" y="60" width="160" height="64" rx="14"/>
-        <text class="label" x="500" y="88">ApprovalQueue</text>
-        <text class="sublabel" x="500" y="106">human gate</text>
+        <!-- FRANK core -->
+        <rect class="node node-accent" x="390" y="210" width="260" height="110" rx="18"/>
+        <text class="label-lg" x="520" y="258">FRANK</text>
+        <text class="sublabel" x="520" y="282">Orchestrator</text>
+        <text class="sublabel" x="520" y="300">routes &middot; remembers &middot; audits</text>
 
-        <rect class="node node-accent" x="640" y="60" width="160" height="64" rx="14"/>
-        <text class="label" x="720" y="88">ExecutionGuard</text>
-        <text class="sublabel" x="720" y="106">policy check</text>
+        <!-- Channels (in and out) -->
+        <rect class="node" x="30" y="230" width="230" height="72" rx="14"/>
+        <text class="label" x="145" y="260">Any Channel</text>
+        <text class="sublabel" x="145" y="282">email &middot; Dropbox &middot; iMessage &middot; WhatsApp</text>
+        <line class="flow2" x1="272" y1="266" x2="378" y2="266"/>
 
-        <rect class="node" x="860" y="60" width="140" height="64" rx="14"/>
-        <text class="label" x="930" y="88">Local LLM</text>
-        <text class="sublabel" x="930" y="106">local inference</text>
+        <!-- AI engines -->
+        <rect class="node" x="790" y="196" width="220" height="64" rx="14"/>
+        <text class="label" x="900" y="224">Local LLM</text>
+        <text class="sublabel" x="900" y="244">private by default</text>
+        <path class="flow2" d="M 662 244 L 778 228"/>
 
-        <!-- Row 2 -->
-        <rect class="node" x="640" y="200" width="160" height="64" rx="14"/>
-        <text class="label" x="720" y="228">OutboundQueue</text>
-        <text class="sublabel" x="720" y="246">staged replies</text>
+        <rect class="node" x="790" y="292" width="220" height="64" rx="14"/>
+        <text class="label" x="900" y="320">Frontier models</text>
+        <text class="sublabel" x="900" y="340">for the hard calls</text>
+        <path class="flow2" d="M 662 290 L 778 322"/>
 
-        <rect class="node" x="420" y="200" width="160" height="64" rx="14"/>
-        <text class="label" x="500" y="228">MessageSender</text>
-        <text class="sublabel" x="500" y="246">delivery</text>
+        <!-- Specialist agents -->
+        <rect class="node" x="220" y="430" width="180" height="64" rx="14"/>
+        <text class="label" x="310" y="458">Finance</text>
+        <text class="sublabel" x="310" y="478">deals &amp; cash</text>
+        <path class="flow2" d="M 318 426 L 448 330"/>
 
-        <!-- Flows row 1 -->
-        <line class="flow" x1="160" y1="92" x2="216" y2="92"/>
-        <line class="flow" x1="360" y1="92" x2="416" y2="92"/>
-        <line class="flow" x1="580" y1="92" x2="636" y2="92"/>
-        <line class="flow" x1="800" y1="92" x2="856" y2="92"/>
+        <rect class="node" x="430" y="430" width="180" height="64" rx="14"/>
+        <text class="label" x="520" y="458">Legal</text>
+        <text class="sublabel" x="520" y="478">contracts &amp; nuance</text>
+        <line class="flow2" x1="520" y1="426" x2="520" y2="330"/>
 
-        <!-- Local LLM down to OutboundQueue -->
-        <path class="flow" d="M 930 124 L 930 232 L 804 232"/>
-        <!-- OutboundQueue to MessageSender -->
-        <line class="flow" x1="640" y1="232" x2="584" y2="232"/>
+        <rect class="node" x="640" y="430" width="180" height="64" rx="14"/>
+        <text class="label" x="730" y="458">Research</text>
+        <text class="sublabel" x="730" y="478">diligence &amp; markets</text>
+        <path class="flow2" d="M 722 426 L 592 330"/>
+
+        <!-- Foundation -->
+        <rect class="node node-base" x="30" y="540" width="980" height="60" rx="14"/>
+        <text class="label" x="520" y="566">Memory &middot; Audit trail &middot; Entity isolation</text>
+        <text class="sublabel" x="520" y="586">every action logged &middot; every decision remembered &middot; no data crosses entity lines</text>
       </svg>
     </div>
-    <p class="arch-caption reveal d2">Any Channel &rarr; Bridge &rarr; ApprovalQueue &rarr; ExecutionGuard &rarr; Local LLM &rarr; OutboundQueue &rarr; MessageSender</p>
+    <p class="arch-caption reveal d2">Channels flow in. Agents do the work. Nothing flows out without you.</p>
   </div>
 </section>
 
@@ -685,7 +745,7 @@
     <div class="reveal">
       <p class="eyebrow">Technical specifications</p>
       <h2 class="section-title">Transparent by design.</h2>
-      <p class="section-sub">No hidden databases. No opaque services. Every layer is inspectable, portable, and yours.</p>
+      <p class="section-sub">No hidden databases. No opaque services. Every layer inspectable, portable, and answerable to you.</p>
     </div>
 
     <div class="specs-grid">
@@ -701,7 +761,7 @@
       </div>
       <div class="spec-card reveal d2">
         <p class="spec-label">Agent hierarchy</p>
-        <p class="spec-value">Orchestrator &rarr; Domain Agents &rarr; Skills</p>
+        <p class="spec-value">Orchestrator &rarr; Agents &rarr; Skills</p>
         <p class="spec-detail">Clear delegation. Each layer scoped to exactly what it needs.</p>
       </div>
       <div class="spec-card reveal d2">
@@ -736,8 +796,8 @@
 <section class="section cta" id="contact">
   <div class="container">
     <div class="reveal">
-      <h2 class="section-title">Learn more about upcoming availability.</h2>
-      <p class="section-sub">Availability: soon. Runs on Mac. Register for early access.</p>
+      <h2 class="section-title">Your chief of staff is almost here.</h2>
+      <p class="section-sub">First deployments are limited. Get in line early.</p>
     </div>
 
     <form class="cta-form reveal d1" id="contactForm" action="https://example.com/api/contact" method="POST" novalidate>
@@ -763,7 +823,7 @@
       <a href="#contact">Contact</a>
     </div>
     <p>Copyright &copy; 2026 FRANK. All rights reserved.</p>
-    <p>FRANK is a private AI operating layer. Not a chatbot.</p>
+    <p>FRANK is a private AI operating layer for the complexity of modern capital.</p>
   </div>
 </footer>
 
